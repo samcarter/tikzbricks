@@ -52,15 +52,15 @@
   % 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %
-  \fill[\brick@color!60] (0,0) -- ++(25:#1) -- ++(0,2) -- ++(180+25:#1) -- cycle; 
-  \fill[\brick@color] (0,0) -- ++(180-25:#2) -- ++(0,2) -- ++(-25:#2) -- cycle; 
-  \fill[\brick@color!50] (0,2) -- ++(25:#1) -- ++(180-25:#2) -- ++(180+25:#1) -- cycle; 
+  \fill[\brick@color!60] (0,0) -- ++(25:#1) -- ++(0,1.5) -- ++(180+25:#1) -- cycle; 
+  \fill[\brick@color] (0,0) -- ++(180-25:#2) -- ++(0,1.5) -- ++(-25:#2) -- cycle; 
+  \fill[\brick@color!50] (0,1.5) -- ++(25:#1) -- ++(180-25:#2) -- ++(180+25:#1) -- cycle; 
   %
   \foreach \x in {1,...,#1}{
   \foreach \y in {1,...,#2}{
-    \fill[\brick@color] (0,2.41) ++(180-25:\y-1) ++(25:\x-1) ellipse [x radius=0.35, y radius=0.25]; 
-    \fill[\brick@color] (-0.35,2.41) ++(180-25:\y-1) ++(25:\x-1) rectangle ++(0.7,0.12);
-    \fill[\brick@color!50] (0,2.53) ++(180-25:\y-1) ++(25:\x-1) ellipse [x radius=0.35, y radius=0.25];    
+    \fill[\brick@color] (0,1.91) ++(180-25:\y-1) ++(25:\x-1) ellipse [x radius=0.35, y radius=0.25]; 
+    \fill[\brick@color] (-0.35,1.93) ++(180-25:\y-1) ++(25:\x-1) rectangle ++(0.7,0.12);
+    \fill[\brick@color!50] (0,2.05) ++(180-25:\y-1) ++(25:\x-1) ellipse [x radius=0.35, y radius=0.25];    
   }}
 }
 
