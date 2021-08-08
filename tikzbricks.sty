@@ -56,8 +56,9 @@
   \fill[\brick@color] (0,0) -- ++(180-25:#2) -- ++(0,2) -- ++(-25:#2) -- cycle; 
   \fill[\brick@color!50] (0,2) -- ++(25:#1) -- ++(180-25:#2) -- ++(180+25:#1) -- cycle; 
   %
-%  \foreach \x in {1,...,#1}{
-%    \draw[\brick@color] 
-%  }
+  \foreach \x in {1,...,#1}{
+  \foreach \y in {1,...,#2}{
+    \fill[\brick@color] (-0.2,1.9) ++(180-25:0.7*\y) ++(25:0.9*\x) ellipse [x radius=0.3, y radius=0.2]; 
+  }}
 }
 
