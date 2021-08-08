@@ -1,4 +1,4 @@
- % !TeX root = ./examples/brick.tex
+ % !TeX root = ./test.tex
 \ProvidesPackage{tikzbricks}[2021/08/08 version v0.1 Drawing brick with TikZ]
 
 \RequirePackage{tikz}
@@ -52,13 +52,15 @@
   % 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %
-  \fill[\brick@color!50] (0,0) -- ++(25:#1) -- ++(0,2) -- ++(180+25:#1) -- cycle; 
+  \fill[\brick@color!60] (0,0) -- ++(25:#1) -- ++(0,2) -- ++(180+25:#1) -- cycle; 
   \fill[\brick@color] (0,0) -- ++(180-25:#2) -- ++(0,2) -- ++(-25:#2) -- cycle; 
   \fill[\brick@color!50] (0,2) -- ++(25:#1) -- ++(180-25:#2) -- ++(180+25:#1) -- cycle; 
   %
   \foreach \x in {1,...,#1}{
   \foreach \y in {1,...,#2}{
-    \fill[\brick@color] (-0.2,1.9) ++(180-25:0.7*\y) ++(25:0.9*\x) ellipse [x radius=0.3, y radius=0.2]; 
+    \fill[\brick@color] (0,2.41) ++(180-25:\y-1) ++(25:\x-1) ellipse [x radius=0.35, y radius=0.25]; 
+    \fill[\brick@color] (-0.35,2.41) ++(180-25:\y-1) ++(25:\x-1) rectangle ++(0.7,0.12);
+    \fill[\brick@color!50] (0,2.53) ++(180-25:\y-1) ++(25:\x-1) ellipse [x radius=0.35, y radius=0.25];    
   }}
 }
 
