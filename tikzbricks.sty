@@ -1,0 +1,63 @@
+ % !TeX root = ./examples/brick.tex
+\ProvidesPackage{tikzbricks}[2021/08/08 version v0.1 Drawing brick with TikZ]
+
+\RequirePackage{tikz}
+
+\newcommand*{\brick}[3][]{%
+  \begin{scope}%
+    \tikzset{/brick/.cd,#1}%
+    \brick@draw{#2}{#3}%
+  \end{scope}%
+}
+
+\tikzset{
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % Pass unknown keys on to tikz
+  %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  /brick/.search also={/tikz,/pgf,/thing},
+  /brick/.cd,
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % brick options
+  %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  color/.code         = \def\brick@color{#1},
+  color               = red,
+}
+
+\newcommand{\brick@draw}[2]{%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % minimal bounding box size 
+  %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \path (-0.73, 0.08) rectangle (0.73, 2.24);
+  %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % store the current scale factor
+  % from https://github.com/samcarter/tikzlings/issues/3#issuecomment-461373494
+  %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \pgfgettransformentries{\tmpscaleA}{\tmpscaleB}{\tmpscaleC}{\tmpscaleD}{\tmp}{\tmp}%
+  \pgfmathsetmacro{\scalingfactor}{sqrt(abs(\tmpscaleA*\tmpscaleD-\tmpscaleB*\tmpscaleC))*sqrt(abs((\pgf@xx/1cm)*(\pgf@yy/1cm)-(\pgf@xy/1cm)*(\pgf@yx/1cm)))}%
+  \pgfmathsetmacro{\xscalefactor}{\tmpscaleA}
+  \pgfmathsetmacro{\yscalefactor}{\tmpscaleD}
+  %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % Drawing the brick
+  % 
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  \fill[\brick@color!50] (0,0) -- ++(25:#1) -- ++(0,2) -- ++(180+25:#1) -- cycle; 
+  \fill[\brick@color] (0,0) -- ++(180-25:#2) -- ++(0,2) -- ++(-25:#2) -- cycle; 
+  \fill[\brick@color!50] (0,2) -- ++(25:#1) -- ++(180-25:#2) -- ++(180+25:#1) -- cycle; 
+  %
+%  \foreach \x in {1,...,#1}{
+%    \draw[\brick@color] 
+%  }
+}
+
