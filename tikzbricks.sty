@@ -2,6 +2,8 @@
 \ProvidesPackage{tikzbricks}[2021/08/08 version v0.1 Drawing brick with TikZ]
 
 \RequirePackage{tikz}
+\RequirePackage{tikz-3dplot}
+\tdplotsetmaincoords{70}{160}
 
 \newcommand*{\brick}[3][]{%
   \begin{scope}%
@@ -16,7 +18,7 @@
   % Pass unknown keys on to tikz
   %
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  /brick/.search also={/tikz,/pgf,/thing},
+  /brick/.search also={/tikz,/pgf},
   /brick/.cd,
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %
@@ -25,6 +27,8 @@
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   color/.code         = \def\brick@color{#1},
   color               = red,
+  brickheight/.code   = \def\brick@height{#1},
+  brickheight         = 1.3,
 }
 
 \newcommand{\brick@draw}[2]{%
@@ -33,7 +37,7 @@
   % minimal bounding box size 
   %
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \path (-0.73, 0.08) rectangle (0.73, 2.24);
+%  \path (-0.73, 0.08) rectangle (0.73, 2.24);
   %
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %
@@ -51,16 +55,22 @@
   % Drawing the brick
   % 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %
-  \fill[\brick@color!60] (0,0) -- ++(25:#1) -- ++(0,1.5) -- ++(180+25:#1) -- cycle; 
-  \fill[\brick@color] (0,0) -- ++(180-25:#2) -- ++(0,1.5) -- ++(-25:#2) -- cycle; 
-  \fill[\brick@color!50] (0,1.5) -- ++(25:#1) -- ++(180-25:#2) -- ++(180+25:#1) -- cycle; 
-  %
-  \foreach \x in {1,...,#1}{
-  \foreach \y in {1,...,#2}{
-    \fill[\brick@color] (0,1.91) ++(180-25:\y-1) ++(25:\x-1) ellipse [x radius=0.35, y radius=0.25]; 
-    \fill[\brick@color] (-0.35,1.93) ++(180-25:\y-1) ++(25:\x-1) rectangle ++(0.7,0.12);
-    \fill[\brick@color!50] (0,2.05) ++(180-25:\y-1) ++(25:\x-1) ellipse [x radius=0.35, y radius=0.25];    
-  }}
+  \begin{scope}[tdplot_main_coords]
+  
+    % drawing faces
+    \fill[\brick@color!60,thick] (0,#2,0) -- (#1,#2,0) -- (#1,#2,\brick@height) -- (0,#2,\brick@height) -- cycle; % top
+    \fill[\brick@color!40,thick] (0,0,\brick@height) -- (0,#2,\brick@height) -- (#1,#2,\brick@height) -- (#1,0,\brick@height) -- cycle; % front
+    \fill[\brick@color,thick] (#1,0,0) -- (#1,0,\brick@height) -- (#1,#2,\brick@height) -- (#1,#2,0) -- cycle; % right
+    
+    %drawing studs
+    \foreach \x in {1,...,#1}{
+      \foreach \y in {1,...,#2}{
+        \fill[\brick@color] (\x-0.5,\y-0.5,\brick@height) circle [radius=0.35]; 
+        \fill[\brick@color] (\x-0.5,\y-0.5,\brick@height) ++(canvas cs:x=-10) -- ++(canvas cs:y=3) -- ++(canvas cs:x=20) -- ++(canvas cs:y=-3);
+        \fill[\brick@color!60] (\x-0.5,\y-0.5,\brick@height) ++(canvas cs:y=3) circle [radius=0.35];
+      }
+    }
+    
+  \end{scope}
 }
 

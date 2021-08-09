@@ -2,6 +2,8 @@
 
 \usepackage{tikzbricks}
 
+\usepackage{tikz-3dplot}
+
 \begin{document}
 
 
@@ -9,13 +11,31 @@
 \brick{4}{2}
 \end{tikzpicture}
 
+
 \begin{tikzpicture}
-\brick{1}{1}
+\brick[color=blue]{2}{3}
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\brick[color=orange]{1}{1}
+\end{tikzpicture}
+
+\tdplotsetmaincoords{70}{110}
+\begin{tikzpicture}
+\brick{4}{2}
+\end{tikzpicture}
+
+\tdplotsetmaincoords{70}{160}
+\begin{tikzpicture}
+\brick{4}{2}
+\end{tikzpicture}
+
+\tdplotsetmaincoords{70}{180}
+\begin{tikzpicture}
+\brick{4}{2}
 \end{tikzpicture}
 
 
-\begin{tikzpicture}
-\brick[color=blue,scale=0.5]{1}{1}
-\end{tikzpicture}
+
 
 \end{document}
