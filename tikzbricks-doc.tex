@@ -1,0 +1,161 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Documentation for the tikzbricks package
+% A package to draw tikzbricks pieces with tikz
+% Maintained by samcarter
+%
+% Project repository and bug tracker:
+% https://github.com/samcarter/TikZbricks
+%
+% Released under the LaTeX Project Public License v1.3c or later
+% See http://www.latex-project.org/lppl.txt
+%
+% Version 0.1
+% Aug 9, 2021  
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[parskip=half]{scrartcl}
+
+% packages %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[T1]{fontenc}	
+\usepackage[utf8]{inputenc}		
+\usepackage[english]{babel}
+\usepackage[bitstream-charter]{mathdesign}
+\usepackage{tikzbricks}
+\usepackage[most]{tcolorbox}
+\usepackage[paper=a4paper,margin=2.9cm]{geometry}
+\usepackage{url}
+\usepackage{xspace}
+\usepackage{scrlayer-scrpage} 
+\usepackage[hang,flushmargin,bottom]{footmisc}
+\usepackage[colorlinks=true,breaklinks=true,urlcolor=duckblue,linkcolor=duckblue,citecolor=duckblue,filecolor=duckblue]{hyperref}
+
+% macros %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\CTAN}{\textsc{CTAN}\xspace}
+\newcommand{\TikZ}{Ti\emph{k}Z\xspace}
+\newcommand{\miktex}{MiK\TeX\xspace}
+\newcommand{\texlive}{\TeX{}Live\xspace}
+
+% customisation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{duckblue}{RGB}{0,70,140}
+\definecolor{marmotred}{RGB}{140,20,40}
+\addtokomafont{sectioning}{\color{gray}}
+\addtokomafont{date}{\normalsize}
+\addtokomafont{author}{\normalsize}
+\setlength{\footnotemargin}{0.7em}
+
+% from https://tex.stackexchange.com/a/147848
+\def\beginlstdelim#1#2#3%
+{%
+    \def\endlstdelim{#2\egroup}%
+    \ttfamily#1\bgroup\color{#3}\aftergroup\endlstdelim%
+}
+
+\lstdefinestyle{tikzbricksstyle}{%
+	language={[latex]TeX},
+	tabsize=2,
+	breaklines,
+	basicstyle=\footnotesize\ttfamily,
+	commentstyle={\color{gray}\slshape}, 
+	columns=fullflexible,
+	texcsstyle=*\color{duckblue}\bfseries,
+	keywordstyle=\color{red!60!black}\bfseries,
+	morekeywords={tikzpicture,scope},
+	moretexcs={path,node,draw,clip,includegraphics,color,brick,tile,tikzbricks},
+	delim ={[s][\ttfamily\color{green!50!black}]{$}{$}},
+	moredelim=[is][\footnotesize\ttfamily\color{orange!70!black}]{|}{|},
+	moredelim={[s][\color{gray}]{<}{>}},
+%	moredelim = **[is][\beginlstdelim{\{}{\}}{orange!70!black}]{\{}{\}},
+%	moredelim = **[is][\beginlstdelim{[}{]}{orange!70!black}]{[}{]},
+}
+
+\tcbset{%
+	colframe=gray,
+	arc=2mm,
+	fonttitle=\bfseries,
+	sidebyside,
+	listing options={style=tikzbricksstyle},
+	center lower,
+	righthand width=5.7cm,
+	bottom=0pt, 
+	top=0pt,
+	sidebyside gap=10pt
+}
+
+\lstset{style=tikzbricksstyle}
+
+% meta %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{The TikZbricks package}
+\subtitle{Drawing bricks with \TikZ}
+\author{%
+	\texorpdfstring{
+		\begin{tikzpicture}
+			 \brick[color=blue]{4}{2}
+		\end{tikzpicture}\\[0.8em]		
+		\texttt{samcarter}\\
+		\url{https://github.com/samcarter/TikZbricks}\\
+%		\url{https://www.ctan.org/pkg/tikzbricks}
+	}{samcarter}}
+\date{Version 0.1 -- \today}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+\label{intro}
+
+The TikZbricks package allows to draw bricks with \TikZ. The user can modify their colour, shape and change the viewpoint. Internally, the \texttt{tikz-3dplot} package is used for the 3D rendering. 
+The idea for the TikZbricks package was born at the \href{https://tug.org/tug2021/}{TUG'21 conference}, at which one of the interviewees had a very cool collection of brick models in the background. % todo: link to video once this is available
+
+%The package is included in both \texlive and \miktex and available from \CTAN (\url{https://ctan.org/pkg/tikzbricks}). 
+The development version of this package is located at \url{https://github.com/samcarter/TikZbricks}. If you have any problems, ideas or other feedback, please make constructive use of its bug tracker.
+
+Copyright \raisebox{0.2em}{\tiny\fontfamily{cmr}\selectfont\textcopyright} \texttt{samcarter}. Permission is granted to copy, distribute and\slash or modify this software under the terms of the LaTeX project public licence, version 1.3c or later \url{http://www.latex-project.org/lppl.txt}.
+
+\section{Usage}
+
+An individual TikZbrick can be drawn with
+
+\begin{tcolorbox}[title={TikZbrick}]
+\begin{lstlisting}
+\brick{4}{2}
+\end{lstlisting}
+\tcblower
+\begin{tikzpicture}
+	 \brick{4}{2}
+\end{tikzpicture}
+\end{tcolorbox}
+
+in which the first argument specifies the length of the block and the second argument its width. In addition to this basic block, the user can customise the block via an optional argument.
+
+The package comes with a couple of build in optional arguments. First the user can adjust the colour:
+\begin{tcblisting}{title={Colour}}
+\begin{tikzpicture}
+	 \brick[color=blue]{1}{3}
+\end{tikzpicture}
+\end{tcblisting}
+
+It is also possible to change the default height of 1.3 to a custom value:
+\begin{tcblisting}{title={Height}}
+\begin{tikzpicture}
+	 \brick[brickheight=0.3]{2}{1}
+\end{tikzpicture}
+\end{tcblisting}
+
+And on top of the studs, a custom text can be added:
+\begin{tcblisting}{title={Height}}
+\begin{tikzpicture}
+	 \brick[studtext={TikZ}]{2}{3}
+\end{tikzpicture}
+\end{tcblisting}
+
+To change the viewpoint, one can make use of the fact, that the \texttt{tikz-3dplot} is used internally. 
+
+\begin{tcblisting}{title={Viewport}}
+\tdplotsetmaincoords{70}{110}
+\begin{tikzpicture}
+\brick{4}{2}
+\end{tikzpicture}
+\end{tcblisting}
+
+\end{document}
