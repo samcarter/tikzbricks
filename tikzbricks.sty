@@ -29,6 +29,8 @@
   color               = red,
   brickheight/.code   = \def\brick@height{#1},
   brickheight         = 1.3,
+  studtext/.code      = \def\brick@text{#1},
+  studtext            = {},
 }
 
 \newcommand{\brick@draw}[2]{%
@@ -67,7 +69,7 @@
       \foreach \y in {1,...,#2}{
         \fill[\brick@color] (\x-0.5,\y-0.5,\brick@height) circle [radius=0.35]; 
         \fill[\brick@color] (\x-0.5,\y-0.5,\brick@height) ++(canvas cs:x=-10) -- ++(canvas cs:y=3) -- ++(canvas cs:x=20) -- ++(canvas cs:y=-3);
-        \fill[\brick@color!60] (\x-0.5,\y-0.5,\brick@height) ++(canvas cs:y=3) circle [radius=0.35];
+        \fill[\brick@color!60] (\x-0.5,\y-0.5,\brick@height) ++(canvas cs:y=3) circle [radius=0.35]  node[\brick@color,scale=\scalingfactor*0.5, font=\sffamily] {\brick@text};
       }
     }
     
