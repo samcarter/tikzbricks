@@ -1,0 +1,20 @@
+% !TeX TS-program = pdflatex % | dvisvgm --pdf --exact --font-format=woff --zoom=-1 %.pdf txs:///view-log | txs:///view-pdf | /usr/bin/sips -s format png %.pdf --out %.png
+\documentclass[margin=1mm]{standalone}
+
+\usepackage{tikzbricks}
+
+\begin{document}
+
+\begin{tikzpicture}
+\brick{4}{2}
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\brick[color=orange]{1}{1}
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\brick[color=blue]{1}{3}
+\end{tikzpicture}
+
+\end{document}
