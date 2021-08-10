@@ -4,12 +4,42 @@
 \RequirePackage{tikz}
 \RequirePackage{tikz-3dplot}
 \tdplotsetmaincoords{70}{160}
+\newcounter{brickx}
+\newcounter{bricky}
+\newcounter{brickz}
+\setcounter{brickx}{0}
+\setcounter{bricky}{0}
+\setcounter{brickz}{0}
 
 \newcommand*{\brick}[3][]{%
+  \setcounter{brickx}{0}%
+  \setcounter{bricky}{0}%
+  \setcounter{brickz}{0}%
   \begin{scope}%
     \tikzset{/brick/.cd,#1}%
     \brick@draw{#2}{#3}%
   \end{scope}%
+}
+
+\newcommand*{\wallbrick}[3][]{%
+  \begin{scope}%
+    \tikzset{/brick/.cd,#1}%
+    \brick@draw{#2}{#3}%
+  \end{scope}%
+  \addtocounter{brickx}{#2}%
+}
+
+\newenvironment{wall}[1][]{%
+  \setcounter{brickx}{0}%
+  \setcounter{bricky}{0}%
+  \setcounter{brickz}{0}%
+  \newcommand{\newrow}{%
+    \setcounter{brickx}{0}%
+    \addtocounter{brickz}{1}%
+  }%
+  \begin{tikzpicture}[#1]
+}{%
+  \end{tikzpicture}%
 }
 
 \tikzset{
@@ -36,13 +66,6 @@
 \newcommand{\brick@draw}[2]{%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %
-  % minimal bounding box size 
-  %
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  \path (-0.73, 0.08) rectangle (0.73, 2.24);
-  %
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %
   % store the current scale factor
   % from https://github.com/samcarter/tikzlings/issues/3#issuecomment-461373494
   %
@@ -60,16 +83,16 @@
   \begin{scope}[tdplot_main_coords]
   
     % drawing faces
-    \fill[\brick@color!60,thick] (0,#2,0) -- (#1,#2,0) -- (#1,#2,\brick@height) -- (0,#2,\brick@height) -- cycle; % top
-    \fill[\brick@color!40,thick] (0,0,\brick@height) -- (0,#2,\brick@height) -- (#1,#2,\brick@height) -- (#1,0,\brick@height) -- cycle; % front
-    \fill[\brick@color,thick] (#1,0,0) -- (#1,0,\brick@height) -- (#1,#2,\brick@height) -- (#1,#2,0) -- cycle; % right
+    \fill[\brick@color!60,thick] (0+\value{brickx},#2+\value{bricky},0+\brick@height*\value{brickz}) -- ++(#1,0,0) -- ++(0,0,\brick@height) -- ++(-#1,0,0) -- cycle; % top
+    \fill[\brick@color!40,thick] (0+\value{brickx},0+\value{bricky},\brick@height+\brick@height*\value{brickz}) -- ++(0,#2,0) -- ++(#1,0,0) -- +(0,-#2,0) -- cycle; % front
+    \fill[\brick@color,thick] (#1+\value{brickx},0+\value{bricky},0+\brick@height*\value{brickz}) -- ++(0,0,\brick@height) -- ++(0,#2,0) -- ++(0,0,-\brick@height) -- cycle; % right
     
     %drawing studs
     \foreach \x in {1,...,#1}{
       \foreach \y in {1,...,#2}{
-        \fill[\brick@color] (\x-0.5,\y-0.5,\brick@height) circle [radius=0.35]; 
-        \fill[\brick@color] (\x-0.5,\y-0.5,\brick@height) ++(canvas cs:x=-10) -- ++(canvas cs:y=3) -- ++(canvas cs:x=20) -- ++(canvas cs:y=-3);
-        \fill[\brick@color!60] (\x-0.5,\y-0.5,\brick@height) ++(canvas cs:y=3) circle [radius=0.35]  node[\brick@color,scale=\scalingfactor*0.5, font=\sffamily] {\brick@text};
+        \fill[\brick@color] (\x-0.5+\value{brickx},\y-0.5+\value{bricky},\brick@height+\brick@height*\value{brickz}) circle [radius=0.35]; 
+        \fill[\brick@color] (\x-0.5+\value{brickx},\y-0.5+\value{bricky},\brick@height+\brick@height*\value{brickz}) ++(canvas cs:x=-10) -- ++(canvas cs:y=3) -- ++(canvas cs:x=20) -- ++(canvas cs:y=-3);
+        \fill[\brick@color!60] (\x-0.5+\value{brickx},\y-0.5+\value{bricky},\brick@height+\brick@height*\value{brickz}) ++(canvas cs:y=3) circle [radius=0.35]  node[\brick@color,scale=\scalingfactor*0.5, font=\sffamily] {\brick@text};
       }
     }
     

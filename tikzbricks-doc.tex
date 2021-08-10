@@ -61,8 +61,8 @@
 	columns=fullflexible,
 	texcsstyle=*\color{duckblue}\bfseries,
 	keywordstyle=\color{red!60!black}\bfseries,
-	morekeywords={tikzpicture,scope},
-	moretexcs={path,node,draw,clip,includegraphics,color,brick,tdplotsetmaincoords},
+	morekeywords={tikzpicture,scope,wall},
+	moretexcs={path,node,draw,clip,includegraphics,color,brick,tdplotsetmaincoords,wallbrick,newrow},
 	delim ={[s][\ttfamily\color{green!50!black}]{$}{$}},
 	moredelim=[is][\footnotesize\ttfamily\color{orange!70!black}]{|}{|},
 	moredelim={[s][\color{gray}]{<}{>}},
@@ -113,7 +113,7 @@ The development version of this package is located at \url{https://github.com/sa
 
 Copyright \raisebox{0.2em}{\tiny\fontfamily{cmr}\selectfont\textcopyright} \texttt{samcarter}. Permission is granted to copy, distribute and\slash or modify this software under the terms of the LaTeX project public licence, version 1.3c or later \url{http://www.latex-project.org/lppl.txt}.
 
-\section{Usage}
+\section{Basic usage}
 
 An individual \tikzbrick can be drawn with
 
@@ -164,6 +164,25 @@ In addition to these \tikzbrick specific options, one can also use all normal Ti
 \brick[scale=1.5]{1}{1}
 \brick[xshift=3cm]{2}{2}
 \end{tikzpicture}
+\end{tcblisting}
+
+\section{Wall building}
+
+So what to do with the \tikzbrick{}s? Like with any other building block, they are made to build things. Using the \lstinline|wall| environment one can place \lstinline|\wallbrick|s besides each other. 
+
+To the perspective and order of painting, the wall is build from bottom to top and from right to left. To leave gaps or change into another layer, one can add to the \lstinline|brickx|, \lstinline|bricky| and \lstinline|brickz| counters. 
+
+Inside the \lstinline|wall| environment one can use \lstinline|\newrow| as a shortcut to go one row up and back to the start at the right hand side. 
+\begin{tcblisting}{title={Wall building}}
+\begin{wall}
+  \wallbrick[color=blue]{2}{1}
+  \wallbrick[color=red]{1}{1}
+  \addtocounter{brickx}{1}
+  \wallbrick[color=orange]{1}{1}
+  \newrow
+  \addtocounter{brickx}{1}{1}
+  \wallbrick[color=cyan]{4}{1}
+\end{wall}
 \end{tcblisting}
 
 \end{document}
