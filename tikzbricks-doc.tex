@@ -105,8 +105,9 @@
 \section{Introduction}
 \label{intro}
 
-The \tikzbrick{}s package allows to draw bricks with \TikZ. The user can modify their colour, shape and change the viewpoint. Internally, the \texttt{tikz-3dplot} package is used for the 3D rendering. 
 The idea for the \tikzbrick{}s package was born at the \href{https://tug.org/tug2021/}{TUG'21 conference}, at which one of the interviewees had a very cool collection of brick models in the background. % todo: link to video once this is available
+
+The package allows to draw bricks with \TikZ. The user can modify their colour, shape and change the viewpoint. Internally the \texttt{tikz-3dplot} package is used for the 3D rendering. 
 
 %The package is included in both \texlive and \miktex and available from \CTAN (\url{https://ctan.org/pkg/tikzbricks}). 
 The development version of this package is located at \url{https://github.com/samcarter/TikZbricks}. If you have any problems, ideas or other feedback, please make constructive use of its bug tracker.
@@ -127,9 +128,11 @@ An individual \tikzbrick can be drawn with
 \end{tikzpicture}
 \end{tcolorbox}
 
-in which the first argument specifies the length of the block and the second argument its width. In addition to this basic block, the user can customise the block via an optional argument.
+in which the first argument specifies the length of the block and the second argument its width. In addition to this basic block, the user can customise the block via optional arguments.
 
-The package comes with a couple of build in optional arguments. First the user can adjust the colour:
+\newpage
+
+The package comes with a couple of build in options. First the user can adjust the colour:
 \begin{tcblisting}{title={Colour}}
 \begin{tikzpicture}
 	 \brick[color=blue]{1}{3}
@@ -150,7 +153,7 @@ And on top of the studs, a custom text can be added:
 \end{tikzpicture}
 \end{tcblisting}
 
-To change the viewpoint, one can make use of the fact, that the \texttt{tikz-3dplot} package is used internally. By default, the \tikzbrick{}s packages use \lstinline|\tdplotsetmaincoords{70}{160}|, but this can be adjusted as desired:
+To change the viewpoint, one can make use of the fact, that the \texttt{tikz-3dplot} package is used internally. By default, the \tikzbrick{}s package uses \lstinline|\tdplotsetmaincoords{70}{160}|, but this can be adjusted as desired:
 \begin{tcblisting}{title={Viewport}}
 \tdplotsetmaincoords{70}{110}
 \begin{tikzpicture}
@@ -168,9 +171,9 @@ In addition to these \tikzbrick specific options, one can also use all normal Ti
 
 \section{Wall building}
 
-So what to do with the \tikzbrick{}s? Like with any other building block, they are made to build things. Using the \lstinline|wall| environment one can place \lstinline|\wallbrick|s besides each other. 
+So what to do with the \tikzbrick{}s? Like with any other building blocks, they are made to build things. Using the \lstinline|wall| environment one can place \lstinline|\wallbrick| besides each other. 
 
-To the perspective and order of painting, the wall is build from bottom to top and from right to left. To leave gaps or change into another layer, one can add to the \lstinline|brickx|, \lstinline|bricky| and \lstinline|brickz| counters. 
+Due to the perspective and order of drawing, the wall is build from bottom to top and from right to left. To leave gaps or change into another layer, one can add to the \lstinline|brickx|, \lstinline|bricky| and \lstinline|brickz| counters. 
 
 Inside the \lstinline|wall| environment one can use \lstinline|\newrow| as a shortcut to go one row up and back to the start at the right hand side. 
 \begin{tcblisting}{title={Wall building}}
