@@ -1,16 +1,37 @@
- % !TeX root = ./test.tex
+% !TeX root = ./test.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This is the TikZbricks package
+% A package to draw bricks with tikz
+% Maintained by samcarter
+%
+% Project repository and bug tracker:
+% https://github.com/samcarter/TikZbricks
+%
+% Released under the LaTeX Project Public License v1.3c or later
+% See http://www.latex-project.org/lppl.txt
+%
+% Version 0.1
+% Aug 10, 2021  
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \ProvidesPackage{tikzbricks}[2021/08/10 version v0.1 Drawing bricks with TikZ]
 
 \RequirePackage{tikz}
 \RequirePackage{tikz-3dplot}
+
+% setting a default viewpoint
 \tdplotsetmaincoords{70}{160}
+
+% counter to dermine the position of a brick in a wall
 \newcounter{brickx}
 \newcounter{bricky}
 \newcounter{brickz}
-\setcounter{brickx}{0}
-\setcounter{bricky}{0}
-\setcounter{brickz}{0}
 
+% draw a standalone brick
+% 1: optional argument
+% 2: lenght
+% 3: width
 \newcommand*{\brick}[3][]{%
   \setcounter{brickx}{0}%
   \setcounter{bricky}{0}%
@@ -21,6 +42,10 @@
   \end{scope}%
 }
 
+% draw a brick in a wall
+% 1: optional argument
+% 2: lenght
+% 3: width
 \newcommand*{\wallbrick}[3][]{%
   \begin{scope}%
     \tikzset{/brick/.cd,#1}%
@@ -29,6 +54,8 @@
   \addtocounter{brickx}{#2}%
 }
 
+% envrinoment to arange the bricks in a wall
+% 1: optional argument passed to the tikzpicture
 \newenvironment{wall}[1][]{%
   \setcounter{brickx}{0}%
   \setcounter{bricky}{0}%
@@ -59,6 +86,14 @@
   color               = red,
   brickheight/.code   = \def\brick@height{#1},
   brickheight         = 1.3,
+  bricklength/.code   = \def\brick@length{#1},
+  bricklength         = 1.0,
+  brickwidth/.code    = \def\brick@width{#1},
+  brickwidth          = 1.0,    
+  studradius/.code    = \def\brick@radius{#1},
+  studradius          = 0.35,
+  studheight/.code    = \def\brick@studheight{#1},
+  studheight          = 5,
   studtext/.code      = \def\brick@text{#1},
   studtext            = {},
 }
@@ -72,8 +107,6 @@
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \pgfgettransformentries{\tmpscaleA}{\tmpscaleB}{\tmpscaleC}{\tmpscaleD}{\tmp}{\tmp}%
   \pgfmathsetmacro{\scalingfactor}{sqrt(abs(\tmpscaleA*\tmpscaleD-\tmpscaleB*\tmpscaleC))*sqrt(abs((\pgf@xx/1cm)*(\pgf@yy/1cm)-(\pgf@xy/1cm)*(\pgf@yx/1cm)))}%
-  \pgfmathsetmacro{\xscalefactor}{\tmpscaleA}
-  \pgfmathsetmacro{\yscalefactor}{\tmpscaleD}
   %
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %
@@ -82,17 +115,80 @@
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \begin{scope}[tdplot_main_coords]
   
-    % drawing faces
-    \fill[\brick@color!60,thick] (0+\value{brickx},#2+\value{bricky},0+\brick@height*\value{brickz}) -- ++(#1,0,0) -- ++(0,0,\brick@height) -- ++(-#1,0,0) -- cycle; % top
-    \fill[\brick@color!40,thick] (0+\value{brickx},0+\value{bricky},\brick@height+\brick@height*\value{brickz}) -- ++(0,#2,0) -- ++(#1,0,0) -- +(0,-#2,0) -- cycle; % front
-    \fill[\brick@color,thick] (#1+\value{brickx},0+\value{bricky},0+\brick@height*\value{brickz}) -- ++(0,0,\brick@height) -- ++(0,#2,0) -- ++(0,0,-\brick@height) -- cycle; % right
+    % Drawing faces
     
-    %drawing studs
+    % Front
+    \fill[\brick@color!60,thick]
+      (
+        \brick@length*\value{brickx},
+        {\brick@width*(#2+\value{bricky})},
+        \brick@height*\value{brickz}
+      )
+      -- ++(\brick@length*#1,0,0) 
+      -- ++(0,0,\brick@height) 
+      -- ++(-\brick@length*#1,0,0) 
+      -- cycle;
+      
+    % Top 
+    \fill[\brick@color!40,thick] 
+      (
+        \brick@length*\value{brickx},
+        \brick@width*\value{bricky},
+        {\brick@height*(1+\value{brickz})}
+      )
+      -- ++(0,\brick@width*#2,0) 
+      -- ++(\brick@length*#1,0,0) 
+      -- +(0,-\brick@width*#2,0) 
+      -- cycle;
+      
+    % Left
+    \fill[\brick@color,thick] 
+      (
+        {\brick@length*(#1+\value{brickx})},
+        \brick@width*\value{bricky},
+        \brick@height*\value{brickz}
+      ) 
+      -- ++(0,0,\brick@height) 
+      -- ++(0,\brick@width*#2,0) 
+      -- ++(0,0,-\brick@height) 
+      -- cycle; 
+    
+    % Drawing studs
     \foreach \x in {1,...,#1}{
       \foreach \y in {1,...,#2}{
-        \fill[\brick@color] (\x-0.5+\value{brickx},\y-0.5+\value{bricky},\brick@height+\brick@height*\value{brickz}) circle [radius=0.35]; 
-        \fill[\brick@color] (\x-0.5+\value{brickx},\y-0.5+\value{bricky},\brick@height+\brick@height*\value{brickz}) ++(canvas cs:x=-10) -- ++(canvas cs:y=3) -- ++(canvas cs:x=20) -- ++(canvas cs:y=-3);
-        \fill[\brick@color!60] (\x-0.5+\value{brickx},\y-0.5+\value{bricky},\brick@height+\brick@height*\value{brickz}) ++(canvas cs:y=3) circle [radius=0.35]  node[\brick@color,scale=\scalingfactor*0.5, font=\sffamily] {\brick@text};
+      
+        % Bottom circle
+        \fill[\brick@color]   
+          (
+            {\brick@length*(\x-0.5+\value{brickx})},
+            {\brick@width*(\y-0.5+\value{bricky})},
+            {\brick@height*(1+\value{brickz})}
+          ) 
+          circle [radius=\brick@radius]; 
+        
+        % Rectangular stem
+        \fill[\brick@color] 
+          (
+            {\brick@length*(\x-0.5+\value{brickx})},
+            {\brick@width*(\y-0.5+\value{bricky})},
+            {\brick@height*(1+\value{brickz})}
+          ) 
+          ++(canvas cs:x=-\brick@radius/0.35*10) 
+          -- ++(canvas cs:y=\brick@studheight) 
+          -- ++(canvas cs:x=\brick@radius/0.35*20) 
+          -- ++(canvas cs:y=-\brick@studheight);
+          
+        % Top circle with text
+        \fill[\brick@color!60] 
+          (
+            {\brick@length*(\x-0.5+\value{brickx})},
+            {\brick@width*(\y-0.5+\value{bricky})},
+            {\brick@height*(1+\value{brickz})}
+          ) 
+          ++(canvas cs:y=\brick@studheight) 
+          circle [radius=\brick@radius]; 
+          node[\brick@color,scale=\scalingfactor*0.5, font=\sffamily] {\brick@text};
+          
       }
     }
     

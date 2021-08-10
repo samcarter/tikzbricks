@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% Documentation for the tikzbricks package
-% A package to draw tikzbricks pieces with tikz
+% Documentation for the TikZbricks package
+% A package to draw bricks with tikz
 % Maintained by samcarter
 %
 % Project repository and bug tracker:
@@ -28,7 +28,7 @@
 \usepackage{xspace}
 \usepackage{scrlayer-scrpage} 
 \usepackage[hang,flushmargin,bottom]{footmisc}
-\usepackage[colorlinks=true,breaklinks=true,urlcolor=duckblue,linkcolor=duckblue,citecolor=duckblue,filecolor=duckblue]{hyperref}
+\usepackage[colorlinks=true,breaklinks=true,urlcolor=darkblue,linkcolor=darkblue,citecolor=darkblue,filecolor=darkblue]{hyperref}
 
 % macros %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\CTAN}{\textsc{CTAN}\xspace}
@@ -38,8 +38,7 @@
 \newcommand{\tikzbrick}{Ti\emph{k}Zbrick\xspace}
 
 % customisation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\definecolor{duckblue}{RGB}{0,70,140}
-\definecolor{marmotred}{RGB}{140,20,40}
+\definecolor{darkblue}{RGB}{0,70,140}
 \addtokomafont{sectioning}{\color{gray}}
 \addtokomafont{date}{\normalsize}
 \addtokomafont{author}{\normalsize}
@@ -59,15 +58,15 @@
 	basicstyle=\footnotesize\ttfamily,
 	commentstyle={\color{gray}\slshape}, 
 	columns=fullflexible,
-	texcsstyle=*\color{duckblue}\bfseries,
+	texcsstyle=*\color{darkblue}\bfseries,
 	keywordstyle=\color{red!60!black}\bfseries,
-	morekeywords={tikzpicture,scope,wall},
-	moretexcs={path,node,draw,clip,includegraphics,color,brick,tdplotsetmaincoords,wallbrick,newrow},
+	morekeywords={tikzpicture,wall,brickx,bricky,brickz},
+	moretexcs={brick,tdplotsetmaincoords,wallbrick,newrow},
 	delim ={[s][\ttfamily\color{green!50!black}]{$}{$}},
 	moredelim=[is][\footnotesize\ttfamily\color{orange!70!black}]{|}{|},
 	moredelim={[s][\color{gray}]{<}{>}},
-%	moredelim = **[is][\beginlstdelim{\{}{\}}{orange!70!black}]{\{}{\}},
-%	moredelim = **[is][\beginlstdelim{[}{]}{orange!70!black}]{[}{]},
+  emphstyle=\color{orange!60!black},
+  emph=[1]{color,brickheight,bricklength,brickwidth,studradius,studheight,studtext,scale,xshift},
 }
 
 \tcbset{%
@@ -85,6 +84,19 @@
 
 \lstset{style=tikzbricksstyle}
 
+\setlength{\footheight}{50pt}
+\pagestyle{scrheadings}
+\pgfmathsetseed{10}
+\cfoot{%
+  \pgfmathsetmacro{\R}{rnd}%
+  \pgfmathsetmacro{\G}{rnd}%
+  \pgfmathsetmacro{\B}{rnd}%
+  \definecolor{randomcol}{rgb}{\R,\G,\B}%
+  \begin{tikzpicture}[scale=0.5] 
+    \brick[color=randomcol]{\thepage}{1}
+  \end{tikzpicture}
+} 
+
 % meta %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \title{The \tikzbrick{}s package}
 \subtitle{Drawing bricks with \TikZ}
@@ -95,21 +107,23 @@
 		\end{tikzpicture}\\[0.8em]		
 		\texttt{samcarter}\\
 		\url{https://github.com/samcarter/TikZbricks}\\
-%		\url{https://www.ctan.org/pkg/tikzbricks}
+		\url{https://www.ctan.org/pkg/tikzbricks}
 	}{samcarter}}
 \date{Version 0.1 -- \today}
 
 \begin{document}
 \maketitle
+\thispagestyle{scrheadings}
 
 \section{Introduction}
 \label{intro}
 
 The idea for the \tikzbrick{}s package was born at the \href{https://tug.org/tug2021/}{TUG'21 conference}, at which one of the interviewees had a very cool collection of brick models in the background. % todo: link to video once this is available
 
-The package allows to draw bricks with \TikZ. The user can modify their colour, shape and change the viewpoint. Internally the \texttt{tikz-3dplot} package is used for the 3D rendering. 
+The package allows to draw bricks with \TikZ. The user can modify their colour, shape and change the viewpoint. Internally the \href{https://ctan.org/pkg/tikz-3dplot}{tikz-3dplot} package is used for the 3D rendering. 
 
-%The package is included in both \texlive and \miktex and available from \CTAN (\url{https://ctan.org/pkg/tikzbricks}). 
+% todo 
+%The package is included in both \texlive and \miktex and available from \CTAN (\url{https://ctan.org/pkg/tikzbricks}).  
 The development version of this package is located at \url{https://github.com/samcarter/TikZbricks}. If you have any problems, ideas or other feedback, please make constructive use of its bug tracker.
 
 Copyright \raisebox{0.2em}{\tiny\fontfamily{cmr}\selectfont\textcopyright} \texttt{samcarter}. Permission is granted to copy, distribute and\slash or modify this software under the terms of the LaTeX project public licence, version 1.3c or later \url{http://www.latex-project.org/lppl.txt}.
@@ -117,42 +131,51 @@ Copyright \raisebox{0.2em}{\tiny\fontfamily{cmr}\selectfont\textcopyright} \text
 \section{Basic usage}
 
 An individual \tikzbrick can be drawn with
-
-\begin{tcolorbox}[title={\tikzbrick}]
-\begin{lstlisting}
-\brick{4}{2}
-\end{lstlisting}
-\tcblower
+\begin{tcblisting}{title={\tikzbrick}}
 \begin{tikzpicture}
-	 \brick{4}{2}
+\brick{4}{2}
 \end{tikzpicture}
-\end{tcolorbox}
+\end{tcblisting}
+in which the first argument specifies the length of the block and the second argument its width. 
 
-in which the first argument specifies the length of the block and the second argument its width. In addition to this basic block, the user can customise the block via optional arguments.
-
-\newpage
-
-The package comes with a couple of build in options. First the user can adjust the colour:
-\begin{tcblisting}{title={Colour}}
+In addition to this basic block, the user can customise the block via the following optional arguments (the value in parenthesis denotes the default value):
+\begin{tcblisting}{title={Brick colour (red)}}
 \begin{tikzpicture}
 	 \brick[color=blue]{1}{3}
 \end{tikzpicture}
 \end{tcblisting}
-
-It is also possible to change the default height of 1.3 to a custom value:
-\begin{tcblisting}{title={Height}}
+\begin{tcblisting}{title={Brick height (1.3)}}
 \begin{tikzpicture}
 	 \brick[brickheight=0.3]{2}{1}
 \end{tikzpicture}
 \end{tcblisting}
-
-And on top of the studs, a custom text can be added:
-\begin{tcblisting}{title={Height}}
+\begin{tcblisting}{title={Brick length (1)}}
+\begin{tikzpicture}
+	 \brick[bricklength=1.5]{2}{1}
+\end{tikzpicture}
+\end{tcblisting}
+\begin{tcblisting}{title={Brick width (1)}}
+\begin{tikzpicture}
+	 \brick[brickwidth=2]{2}{1}
+\end{tikzpicture}
+\end{tcblisting}
+\begin{tcblisting}{title={Stud radius (0.35)}}
+\begin{tikzpicture}
+	 \brick[studradius=0.2]{2}{1}
+\end{tikzpicture}
+\end{tcblisting}
+\begin{tcblisting}{title={Stud height (5)}}
+\begin{tikzpicture}
+	 \brick[studheight=8]{2}{1}
+\end{tikzpicture}
+\end{tcblisting}
+\begin{tcblisting}{title={Stud text ()}}
 \begin{tikzpicture}
 	 \brick[studtext={TikZ}]{2}{3}
 \end{tikzpicture}
 \end{tcblisting}
 
+\newpage
 To change the viewpoint, one can make use of the fact, that the \texttt{tikz-3dplot} package is used internally. By default, the \tikzbrick{}s package uses \lstinline|\tdplotsetmaincoords{70}{160}|, but this can be adjusted as desired:
 \begin{tcblisting}{title={Viewport}}
 \tdplotsetmaincoords{70}{110}
@@ -188,12 +211,17 @@ Inside the \lstinline|wall| environment one can use \lstinline|\newrow| as a sho
 \end{wall}
 \end{tcblisting}
 
+\newpage
 \section{Example}
 
 One example inspired by the documentation of the  \href{https://www.ctan.org/pkg/pxpic}{pxpic package}:
 
-%\begin{tcblisting}{title={Brick Duck}}
-\begin{center}
+\begin{tcblisting}{
+  title={Brick Duck},
+  text above listing,
+  sidebyside=false,
+  breakable
+}
 \begin{wall}[scale=0.5]
   \addtocounter{brickx}{3}
   \wallbrick[color=yellow!80!orange]{6}{2}
@@ -247,7 +275,7 @@ One example inspired by the documentation of the  \href{https://www.ctan.org/pkg
   \addtocounter{brickx}{3}
   \wallbrick[color=yellow!80!orange]{4}{2}      
 \end{wall}
-\end{center}
-%\end{tcblisting}
+\end{tcblisting}
+
 
 \end{document}
