@@ -35,6 +35,7 @@
 \newcommand{\TikZ}{Ti\emph{k}Z\xspace}
 \newcommand{\miktex}{MiK\TeX\xspace}
 \newcommand{\texlive}{\TeX{}Live\xspace}
+\newcommand{\tikzbrick}{Ti\emph{k}Zbrick\xspace}
 
 % customisation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \definecolor{duckblue}{RGB}{0,70,140}
@@ -61,7 +62,7 @@
 	texcsstyle=*\color{duckblue}\bfseries,
 	keywordstyle=\color{red!60!black}\bfseries,
 	morekeywords={tikzpicture,scope},
-	moretexcs={path,node,draw,clip,includegraphics,color,brick,tile,tikzbricks},
+	moretexcs={path,node,draw,clip,includegraphics,color,brick,tdplotsetmaincoords},
 	delim ={[s][\ttfamily\color{green!50!black}]{$}{$}},
 	moredelim=[is][\footnotesize\ttfamily\color{orange!70!black}]{|}{|},
 	moredelim={[s][\color{gray}]{<}{>}},
@@ -85,7 +86,7 @@
 \lstset{style=tikzbricksstyle}
 
 % meta %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{The TikZbricks package}
+\title{The \tikzbrick{}s package}
 \subtitle{Drawing bricks with \TikZ}
 \author{%
 	\texorpdfstring{
@@ -104,8 +105,8 @@
 \section{Introduction}
 \label{intro}
 
-The TikZbricks package allows to draw bricks with \TikZ. The user can modify their colour, shape and change the viewpoint. Internally, the \texttt{tikz-3dplot} package is used for the 3D rendering. 
-The idea for the TikZbricks package was born at the \href{https://tug.org/tug2021/}{TUG'21 conference}, at which one of the interviewees had a very cool collection of brick models in the background. % todo: link to video once this is available
+The \tikzbrick{}s package allows to draw bricks with \TikZ. The user can modify their colour, shape and change the viewpoint. Internally, the \texttt{tikz-3dplot} package is used for the 3D rendering. 
+The idea for the \tikzbrick{}s package was born at the \href{https://tug.org/tug2021/}{TUG'21 conference}, at which one of the interviewees had a very cool collection of brick models in the background. % todo: link to video once this is available
 
 %The package is included in both \texlive and \miktex and available from \CTAN (\url{https://ctan.org/pkg/tikzbricks}). 
 The development version of this package is located at \url{https://github.com/samcarter/TikZbricks}. If you have any problems, ideas or other feedback, please make constructive use of its bug tracker.
@@ -114,9 +115,9 @@ Copyright \raisebox{0.2em}{\tiny\fontfamily{cmr}\selectfont\textcopyright} \text
 
 \section{Usage}
 
-An individual TikZbrick can be drawn with
+An individual \tikzbrick can be drawn with
 
-\begin{tcolorbox}[title={TikZbrick}]
+\begin{tcolorbox}[title={\tikzbrick}]
 \begin{lstlisting}
 \brick{4}{2}
 \end{lstlisting}
@@ -149,12 +150,19 @@ And on top of the studs, a custom text can be added:
 \end{tikzpicture}
 \end{tcblisting}
 
-To change the viewpoint, one can make use of the fact, that the \texttt{tikz-3dplot} is used internally. 
-
+To change the viewpoint, one can make use of the fact, that the \texttt{tikz-3dplot} package is used internally. By default, the \tikzbrick{}s packages use \lstinline|\tdplotsetmaincoords{70}{160}|, but this can be adjusted as desired:
 \begin{tcblisting}{title={Viewport}}
 \tdplotsetmaincoords{70}{110}
 \begin{tikzpicture}
 \brick{4}{2}
+\end{tikzpicture}
+\end{tcblisting}
+
+In addition to these \tikzbrick specific options, one can also use all normal Ti\emph{k}Z options:
+\begin{tcblisting}{title={Ti\emph{k}Z options}}
+\begin{tikzpicture}
+\brick[scale=1.5]{1}{1}
+\brick[xshift=3cm]{2}{2}
 \end{tikzpicture}
 \end{tcblisting}
 
