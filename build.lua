@@ -75,7 +75,7 @@ ctanreadme= "README.md"
 packtdszip   = false
 installfiles = {"*.sty"}
 sourcefiles = {"*.sty"}  
-excludefiles = {"*/documentation.pdf"}
+excludefiles = {"*/documentation.pdf","*/test.pdf","*/showcase.pdf"}
 
 -- configuring ctan upload ===========================================
 require('build-private.lua')
