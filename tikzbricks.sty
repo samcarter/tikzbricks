@@ -84,6 +84,14 @@
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   color/.code         = \def\brick@color{#1},
   color               = red,
+  frontcolor/.code    = \def\brick@frontcolor{#1},
+  frontcolor          = \brick@color!60,
+  topcolor/.code      = \def\brick@topcolor{#1},
+  topcolor            = \brick@color!40,
+  sidecolor/.code     = \def\brick@sidecolor{#1},
+  sidecolor           = \brick@color,  
+  studcolor/.code     = \def\brick@studcolor{#1},
+  studcolor           = \brick@color,    
   brickheight/.code   = \def\brick@height{#1},
   brickheight         = 1.3,
   bricklength/.code   = \def\brick@length{#1},
@@ -118,7 +126,7 @@
     % Drawing faces
     
     % Front
-    \fill[\brick@color!60,thick]
+    \fill[\brick@frontcolor,thick]
       (
         \brick@length*\value{brickx},
         {\brick@width*(#2+\value{bricky})},
@@ -130,7 +138,7 @@
       -- cycle;
       
     % Top 
-    \fill[\brick@color!40,thick] 
+    \fill[\brick@topcolor,thick] 
       (
         \brick@length*\value{brickx},
         \brick@width*\value{bricky},
@@ -142,7 +150,7 @@
       -- cycle;
       
     % Left
-    \fill[\brick@color,thick] 
+    \fill[\brick@sidecolor,thick] 
       (
         {\brick@length*(#1+\value{brickx})},
         \brick@width*\value{bricky},
@@ -158,7 +166,7 @@
       \foreach \y in {1,...,#2}{
       
         % Bottom circle
-        \fill[\brick@color]   
+        \fill[\brick@studcolor]   
           (
             {\brick@length*(\x-0.5+\value{brickx})},
             {\brick@width*(\y-0.5+\value{bricky})},
@@ -167,7 +175,7 @@
           circle [radius=\brick@radius]; 
         
         % Rectangular stem
-        \fill[\brick@color] 
+        \fill[\brick@studcolor] 
           (
             {\brick@length*(\x-0.5+\value{brickx})},
             {\brick@width*(\y-0.5+\value{bricky})},
@@ -179,7 +187,7 @@
           -- ++(canvas cs:y=-\brick@studheight);
           
         % Top circle with text
-        \fill[\brick@color!60] 
+        \fill[\brick@topcolor] 
           (
             {\brick@length*(\x-0.5+\value{brickx})},
             {\brick@width*(\y-0.5+\value{bricky})},

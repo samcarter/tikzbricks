@@ -143,6 +143,26 @@ In addition to this basic block, the user can customise the block via the follow
 	 \brick[color=blue]{1}{3}
 \end{tikzpicture}
 \end{tcblisting}
+\begin{tcblisting}{title={Front colour (color!60)}}
+\begin{tikzpicture}
+	 \brick[frontcolor=blue]{2}{1}
+\end{tikzpicture}
+\end{tcblisting}
+\begin{tcblisting}{title={Top colour (color!40)}}
+\begin{tikzpicture}
+	 \brick[topcolor=blue]{2}{1}
+\end{tikzpicture}
+\end{tcblisting}
+\begin{tcblisting}{title={Side colour (color)}}
+\begin{tikzpicture}
+	 \brick[sidecolor=blue]{2}{1}
+\end{tikzpicture}
+\end{tcblisting}
+\begin{tcblisting}{title={Stud colour (color)}}
+\begin{tikzpicture}
+	 \brick[studcolor=blue]{2}{1}
+\end{tikzpicture}
+\end{tcblisting}
 \begin{tcblisting}{title={Brick height (1.3)}}
 \begin{tikzpicture}
 	 \brick[brickheight=0.3]{2}{1}
@@ -174,7 +194,6 @@ In addition to this basic block, the user can customise the block via the follow
 \end{tikzpicture}
 \end{tcblisting}
 
-\newpage
 To change the viewpoint, one can make use of the fact, that the \texttt{tikz-3dplot} package is used internally. By default, the \tikzbrick{}s package uses \lstinline|\tdplotsetmaincoords{70}{160}|, but this can be adjusted as desired:
 \begin{tcblisting}{title={Viewport}}
 \tdplotsetmaincoords{70}{110}
@@ -210,7 +229,6 @@ Inside the \lstinline|wall| environment one can use \lstinline|\newrow| as a sho
 \end{wall}
 \end{tcblisting}
 
-\newpage
 \section{Example}
 
 One example inspired by the documentation of the  \href{https://www.ctan.org/pkg/pxpic}{pxpic package}:
