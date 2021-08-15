@@ -8,6 +8,7 @@
 -- Settings ==========================================================
 module = "tikzbricks"
 ctanpkg = "tikzbricks"
+github = "https://github.com/samcarter/TikZbricks"
 builddir = os.getenv("TMPDIR") 
 
 -- Package version ===================================================
@@ -89,10 +90,10 @@ uploadconfig = {
   license      = "lppl1.3c",
   summary      = "A small LaTeX package to draw bricks with TikZ",
   ctanPath     = "/graphics/pgf/contrib/" .. ctanpkg,
-  repository   = "https://github.com/samcarter/" .. module,
+  repository   = github ,
   note         = [[Uploaded automatically by l3build...]],
-  bugtracker   = "https://github.com/samcarter/" .. module .. "/issues",
-  support      = "https://github.com/samcarter/" .. module .. "/issues",  
+  bugtracker   = github .. "/issues",
+  support      = github .. "/issues",  
   announcement_file = "announcement.txt"
 }
 
