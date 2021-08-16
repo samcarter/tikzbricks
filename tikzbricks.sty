@@ -121,43 +121,63 @@
   \begin{scope}[tdplot_main_coords]
   
     % Drawing faces
+   \pgfmathparse{sign(sin(\tdplotmainphi))}
+   \let\brick@sin\pgfmathresult
+   \pgfmathparse{sign(cos(\tdplotmainphi))}
+   \let\brick@cos\pgfmathresult   
     
-    % Right
-    \fill[\brick@sidecolor,thick] 
-      (
-        \brick@length*\value{brickx},
-        \brick@width*\value{bricky},
-        \brick@height*\value{brickz}
-      ) 
-      -- ++(0,0,\brick@height) 
-      -- ++(0,\brick@width*#2,0) 
-      -- ++(0,0,-\brick@height) 
-      -- cycle;       
+    \ifnum\brick@sin<0
+      % Right
+      \fill[\brick@sidecolor,thick] 
+        (
+          \brick@length*\value{brickx},
+          \brick@width*\value{bricky},
+          \brick@height*\value{brickz}
+        ) 
+        -- ++(0,0,\brick@height) 
+        -- ++(0,\brick@width*#2,0) 
+        -- ++(0,0,-\brick@height) 
+        -- cycle;
+    \else
+      % Left
+      \fill[\brick@sidecolor,thick] 
+        (
+          {\brick@length*(#1+\value{brickx})},
+          \brick@width*\value{bricky},
+          \brick@height*\value{brickz}
+        ) 
+        -- ++(0,0,\brick@height) 
+        -- ++(0,\brick@width*#2,0) 
+        -- ++(0,0,-\brick@height) 
+        -- cycle;       
+    \fi
     
-    % Front
-    \fill[\brick@frontcolor,thick]
-      (
-        \brick@length*\value{brickx},
-        {\brick@width*(#2+\value{bricky})},
-        \brick@height*\value{brickz}
-      )
-      -- ++(\brick@length*#1,0,0) 
-      -- ++(0,0,\brick@height) 
-      -- ++(-\brick@length*#1,0,0) 
-      -- cycle;
-      
-    % Back  
-    \fill[\brick@frontcolor,thick]
-      (
-        \brick@length*\value{brickx},
-        \brick@width*\value{bricky},
-        \brick@height*\value{brickz}
-      )
-      -- ++(\brick@length*#1,0,0) 
-      -- ++(0,0,\brick@height) 
-      -- ++(-\brick@length*#1,0,0) 
-      -- cycle;
-      
+    \ifnum\brick@cos<0
+      % Front
+      \fill[\brick@frontcolor,thick]
+        (
+          \brick@length*\value{brickx},
+          {\brick@width*(#2+\value{bricky})},
+          \brick@height*\value{brickz}
+        )
+        -- ++(\brick@length*#1,0,0) 
+        -- ++(0,0,\brick@height) 
+        -- ++(-\brick@length*#1,0,0) 
+        -- cycle;
+    \else
+      % Back   
+      \fill[\brick@frontcolor,thick]
+        (
+          \brick@length*\value{brickx},
+          \brick@width*\value{bricky},
+          \brick@height*\value{brickz}
+        )
+        -- ++(\brick@length*#1,0,0) 
+        -- ++(0,0,\brick@height) 
+        -- ++(-\brick@length*#1,0,0) 
+        -- cycle;
+    \fi
+
     % Top 
     \fill[\brick@topcolor,thick] 
       (
@@ -169,18 +189,8 @@
       -- ++(\brick@length*#1,0,0) 
       -- +(0,-\brick@width*#2,0) 
       -- cycle;
-      
-    % Left
-    \fill[\brick@sidecolor,thick] 
-      (
-        {\brick@length*(#1+\value{brickx})},
-        \brick@width*\value{bricky},
-        \brick@height*\value{brickz}
-      ) 
-      -- ++(0,0,\brick@height) 
-      -- ++(0,\brick@width*#2,0) 
-      -- ++(0,0,-\brick@height) 
-      -- cycle; 
+    
+
     
     % Drawing studs
     \foreach \x in {1,...,#1}{
