@@ -122,11 +122,35 @@
   
     % Drawing faces
     
+    % Right
+    \fill[\brick@sidecolor,thick] 
+      (
+        \brick@length*\value{brickx},
+        \brick@width*\value{bricky},
+        \brick@height*\value{brickz}
+      ) 
+      -- ++(0,0,\brick@height) 
+      -- ++(0,\brick@width*#2,0) 
+      -- ++(0,0,-\brick@height) 
+      -- cycle;       
+    
     % Front
     \fill[\brick@frontcolor,thick]
       (
         \brick@length*\value{brickx},
         {\brick@width*(#2+\value{bricky})},
+        \brick@height*\value{brickz}
+      )
+      -- ++(\brick@length*#1,0,0) 
+      -- ++(0,0,\brick@height) 
+      -- ++(-\brick@length*#1,0,0) 
+      -- cycle;
+      
+    % Back  
+    \fill[\brick@frontcolor,thick]
+      (
+        \brick@length*\value{brickx},
+        \brick@width*\value{bricky},
         \brick@height*\value{brickz}
       )
       -- ++(\brick@length*#1,0,0) 
