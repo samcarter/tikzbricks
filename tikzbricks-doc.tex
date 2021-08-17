@@ -192,12 +192,13 @@ In addition to this basic block, the user can customise the block via the follow
 \end{tcblisting}
 
 To change the viewpoint, one can make use of the fact, that the \texttt{tikz-3dplot} package is used internally. By default, the \tikzbrick{}s package uses \lstinline|\tdplotsetmaincoords{70}{160}|, but this can be adjusted as desired:
-\begin{tcblisting}{title={Viewport}}
+\begin{tcblisting}{title={Viewpoint}}
 \tdplotsetmaincoords{70}{110}
 \begin{tikzpicture}
 \brick{4}{2}
 \end{tikzpicture}
 \end{tcblisting}
+Caveat: don't move away too far from the default viewpoint, otherwise the correct rendering of the brick is not guaranteed. 
 
 In addition to these \tikzbrick specific options, one can also use all normal Ti\emph{k}Z options:
 \begin{tcblisting}{title={Ti\emph{k}Z options}}
