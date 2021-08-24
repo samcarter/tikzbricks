@@ -30,7 +30,7 @@
 \DeclareOptionX{bricklength}[1.0]{\def\brick@default@length{#1}}
 \DeclareOptionX{brickwidth}[1.0]{\def\brick@default@width{#1}}
 \DeclareOptionX{studradius}[0.35]{\def\brick@default@radius{#1}}
-\DeclareOptionX{studheight}[5]{\def\brick@default@studheight{#1}}
+\DeclareOptionX{studheight}[0.3]{\def\brick@default@studheight{#1}}
 \DeclareOptionX{studtext}[]{\def\brick@default@text{#1}}
 
 \ExecuteOptionsX{color,frontcolor,topcolor,sidecolor,studcolor,brickheight,bricklength,brickwidth,studradius,studheight,studtext}
@@ -230,9 +230,9 @@
             {\brick@height*(1+\value{brickz})}
           ) 
           ++(canvas cs:x=-\brick@radius/0.35*10) 
-          -- ++(canvas cs:y=\brick@studheight) 
+          -- ++(canvas cs:y=\brick@studheight*17.8) 
           -- ++(canvas cs:x=\brick@radius/0.35*20) 
-          -- ++(canvas cs:y=-\brick@studheight);
+          -- ++(canvas cs:y=-\brick@studheight*17.8);
           
         % Top circle with text
         \fill[\brick@topcolor] 
@@ -241,7 +241,7 @@
             {\brick@width*(\y-0.5+\value{bricky})},
             {\brick@height*(1+\value{brickz})}
           ) 
-          ++(canvas cs:y=\brick@studheight) 
+          ++(canvas cs:y=\brick@studheight*17.8) 
           circle [radius=\brick@radius] 
           node[\brick@color,scale=\scalingfactor*0.5, font=\sffamily] {\brick@text};
 
