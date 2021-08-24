@@ -20,6 +20,23 @@
 % setting a default viewpoint
 \tdplotsetmaincoords{70}{160}
 
+% setting default values
+\DeclareOptionX{color}[red]{\def\brick@default@color{#1}}
+\DeclareOptionX{frontcolor}[\brick@color!60]{\def\brick@default@frontcolor{#1}}
+\DeclareOptionX{topcolor}[\brick@color!40]{\def\brick@default@topcolor{#1}}
+\DeclareOptionX{sidecolor}[\brick@color]{\def\brick@default@sidecolor{#1}}
+\DeclareOptionX{studcolor}[\brick@color]{\def\brick@default@studcolor{#1}}
+\DeclareOptionX{brickheight}[1.3]{\def\brick@default@height{#1}}
+\DeclareOptionX{bricklength}[1.0]{\def\brick@default@length{#1}}
+\DeclareOptionX{brickwidth}[1.0]{\def\brick@default@width{#1}}
+\DeclareOptionX{studradius}[0.35]{\def\brick@default@radius{#1}}
+\DeclareOptionX{studheight}[5]{\def\brick@default@studheight{#1}}
+\DeclareOptionX{studtext}[]{\def\brick@default@text{#1}}
+
+\ExecuteOptionsX{color,frontcolor,topcolor,sidecolor,studcolor,brickheight,bricklength,brickwidth,studradius,studheight,studtext}
+
+\ProcessOptionsX
+
 % counter to dermine the position of a brick in a wall
 \newcounter{brickx}
 \newcounter{bricky}
@@ -80,27 +97,27 @@
   %
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   color/.code         = \def\brick@color{#1},
-  color               = red,
+  color               = \brick@default@color,
   frontcolor/.code    = \def\brick@frontcolor{#1},
-  frontcolor          = \brick@color!60,
+  frontcolor          = \brick@default@frontcolor,
   topcolor/.code      = \def\brick@topcolor{#1},
-  topcolor            = \brick@color!40,
+  topcolor            = \brick@default@topcolor,
   sidecolor/.code     = \def\brick@sidecolor{#1},
-  sidecolor           = \brick@color,  
+  sidecolor           = \brick@default@sidecolor,  
   studcolor/.code     = \def\brick@studcolor{#1},
-  studcolor           = \brick@color,    
+  studcolor           = \brick@default@studcolor,    
   brickheight/.code   = \def\brick@height{#1},
-  brickheight         = 1.3,
+  brickheight         = \brick@default@height,
   bricklength/.code   = \def\brick@length{#1},
-  bricklength         = 1.0,
+  bricklength         = \brick@default@length,
   brickwidth/.code    = \def\brick@width{#1},
-  brickwidth          = 1.0,    
+  brickwidth          = \brick@default@width,    
   studradius/.code    = \def\brick@radius{#1},
-  studradius          = 0.35,
+  studradius          = \brick@default@radius,
   studheight/.code    = \def\brick@studheight{#1},
-  studheight          = 5,
+  studheight          = \brick@default@studheight,
   studtext/.code      = \def\brick@text{#1},
-  studtext            = {},
+  studtext            = \brick@default@text,
 }
 
 \newcommand{\brick@draw}[2]{%

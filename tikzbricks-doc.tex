@@ -191,6 +191,31 @@ In addition to this basic block, the user can customise the block via the follow
 \end{tikzpicture}
 \end{tcblisting}
 
+All the above options are also available as package options to change the value for the whole document. The default colour can for example be specified like this:
+\begin{tcolorbox}[title={Package options ()}]
+\begin{lstlisting}[morekeywords={tikzbricks,standalone,document}]
+\documentclass{standalone}
+
+\usepackage[color=blue]{tikzbricks}
+
+\begin{document}
+
+\begin{tikzpicture}
+\brick{3}{2}
+\end{tikzpicture}
+
+\end{document}
+\end{lstlisting} 
+
+\tcblower
+\makeatletter
+\def\brick@default@color{blue}
+\makeatother
+\begin{tikzpicture}
+\brick{3}{2}
+\end{tikzpicture}
+\end{tcolorbox}
+
 To change the viewpoint, one can make use of the fact, that the \texttt{tikz-3dplot} package is used internally. By default, the \tikzbrick{}s package uses \lstinline|\tdplotsetmaincoords{70}{160}|, but this can be adjusted as desired:
 \begin{tcblisting}{title={Viewpoint}}
 \tdplotsetmaincoords{70}{110}
