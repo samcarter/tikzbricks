@@ -8,20 +8,26 @@
 -- Settings ==========================================================
 module = "tikzbricks"
 ctanpkg = "tikzbricks"
-github = "https://github.com/samcarter/TikZbricks"
 builddir = os.getenv("TMPDIR") 
 
+-- Private settings ==================================================
+local ok, build_private = pcall(require, "build-private.lua")
+
 -- Package version ===================================================
-local handle = io.popen("git describe --tags $(git rev-list --tags --max-count=1)")
-local oldtag = handle:read("*a")
-handle:close()
-newsubtag = string.sub(oldtag, 4)
-newmajortag = string.sub(oldtag, 0, 3)
-if ( options["target"] == "tag") then
-	newsubtag = newsubtag + 1
+if ok then
+  local handle = io.popen("git describe --tags $(git rev-list --tags --max-count=1)")
+  local oldtag = handle:read("*a")
+  handle:close()
+  newsubtag = string.sub(oldtag, 4)
+  newmajortag = string.sub(oldtag, 0, 3)
+  previousversion = newmajortag .. math.floor(newsubtag)
+  if ( options["target"] == "tag") then
+    newsubtag = newsubtag + 1
+  end
+  packageversion = newmajortag .. math.floor(newsubtag)  
+else 
+  packageversion="v1.42"
 end
-packageversion = newmajortag .. math.floor(newsubtag)
---packageversion="v1.3"
 
 -- Package date ======================================================
 packagedate = os.date("!%Y-%m-%d")
@@ -37,7 +43,7 @@ function git(...)
 end
 
 -- replace version tags in .sty and -doc.tex files ===================
-tagfiles = {"*.sty", "*-doc.tex"}
+tagfiles = {"*.sty", "*-doc.tex", "README.md", "CHANGELOG.md"}
 function update_tag (file,content,tagname,tagdate)
 	tagdate = string.gsub (packagedate,"-", "/")
 	if string.match (file, "%.sty$" ) then
@@ -53,7 +59,41 @@ function update_tag (file,content,tagname,tagdate)
 			"\\date{Version v%d%.%d+ \\textendash{} %d%d%d%d%/%d%d%/%d%d",
 			"\\date{Version " .. packageversion .. " \\textendash{} " .. tagdate
 		)
-		return content    
+		return content
+	elseif string.match (file, "README.md$" ) then
+		content = string.gsub (
+			content,
+			"Current version: %d%d%d%d%/%d%d%/%d%d version v%d%.%d+",
+			"Current version: " .. tagdate.." version "..packageversion
+		)
+		return content
+    elseif string.match (file, "CHANGELOG.md$" ) then
+        local url = "https://github.com/samcarter/" .. module .. "/compare/"
+        local previous = string.match(content,"compare/(v%d%.%d)%.%.%.HEAD")
+        
+        -- copying current changelong to announcement.txt
+        -- finding start and end in changelog
+        i, startstring = string.find(content, "## %[Unreleased%]")
+        stopstring, i = string.find(content, "## %[" .. previousversion .. "%]")
+        -- opening file and writing substring
+        file = io.open("announcement.txt", "w")
+        file:write(string.sub(content, startstring+3, stopstring-1), "\n")
+        file:close()
+        
+        -- adding new unreleased heading at the top
+		content = string.gsub (
+			content,
+            "## %[Unreleased%]",
+            "## [Unreleased]\n\n### New\n\n### Changed\n\n### Fixed\n\n\n## [" .. packageversion .."]"        
+		)
+        
+        -- adding new link at bottom
+		content = string.gsub (
+			content,
+            "v%d.%d%.%.%.HEAD",
+            packageversion .. "...HEAD\n[" .. packageversion .. "]: " .. url .. previousversion .. "..." .. packageversion
+		)
+		return content
 	end
 	return content
 end
@@ -62,6 +102,8 @@ end
 function tag_hook(tagname)
 	git("add", "*.sty")
 	git("add", "*-doc.tex")
+	git("add", "README.md")
+    git("add", "CHANGELOG.md")
 	os.execute("latexmk " .. module .. "-doc")
 	os.execute("cp " .. module .. "-doc.pdf documentation.pdf")
 	git("add", "documentation.pdf")
@@ -76,24 +118,29 @@ ctanreadme= "README.md"
 packtdszip   = false
 installfiles = {"*.sty"}
 sourcefiles = {"*.sty"}  
-excludefiles = {"*/documentation.pdf","*/test.pdf","*/showcase.pdf"}
+excludefiles = {"documentation.pdf","test.pdf","showcase.pdf"}
 
 -- configuring ctan upload ===========================================
-require('build-private.lua')
+if not ok then
+  uploadconfig = uploadconfig or {}
+  uploadconfig.author   = "xxx"
+  uploadconfig.uploader = "xxx"
+  uploadconfig.email    = "xxx"
+end
 
 uploadconfig = {
-	author       = uploadconfig.author,
-	uploader     = uploadconfig.uploader,
-	email        = uploadconfig.email,
+  author       = uploadconfig.author,
+  uploader     = uploadconfig.uploader,
+  email        = uploadconfig.email,
   pkg          = ctanpkg,
   version      = packageversion .. " " .. packagedate,
   license      = "lppl1.3c",
   summary      = "A small LaTeX package to draw bricks with TikZ",
   ctanPath     = "/graphics/pgf/contrib/" .. ctanpkg,
-  repository   = github ,
+  repository   = "https://github.com/samcarter/" .. module,
   note         = [[Uploaded automatically by l3build...]],
-  bugtracker   = github .. "/issues",
-  support      = github .. "/issues",  
+  bugtracker   = "https://github.com/samcarter/" .. module .. "/issues",
+  support      = "https://github.com/samcarter/" .. module .. "/issues",  
   announcement_file = "announcement.txt"
 }
 
