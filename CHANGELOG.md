@@ -13,9 +13,11 @@
 
 ### New
 
-### Changed
+- section about img2bricks in the documentation
 
 ### Fixed
+
+- added missing dependency
 
 ## [v0.3]
 
