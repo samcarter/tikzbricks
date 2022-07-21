@@ -252,6 +252,35 @@ Inside the \lstinline|wall| environment one can use \lstinline|\newrow| as a sho
 \end{wall}
 \end{tcblisting}
 
+\clearpage
+\section{img2bricks (by @Scott Pakin)}
+
+To make creating large structures easier, \href{https://github.com/spakin}{Scott Pakin} contributed the \lstinline|img2bricks| python script, which converts image into \tikzbrick{}s. The script can be downloaded from \url{https://github.com/samcarter/TikZbricks/blob/main/img2bricks}.
+
+The script can be executed with python:
+\begin{tcolorbox}[lower separated=false]
+\begin{lstlisting}
+python3 img2bricks image.png
+\end{lstlisting}
+\end{tcolorbox}
+
+Additional options are 
+\begin{tcolorbox}[lower separated=false,,righthand width=0cm,right=0cm]
+\begin{lstlisting}[columns=flexible]
+-h, --help                         show an help message 
+--output LATEX-FILE, -o LATEX-FILE name of output file
+--depth DEPTH                      depth of each brick
+--widths NUM[,NUM]                 comma-separated list of allowable brick widths
+\end{lstlisting}
+\end{tcolorbox}
+
+When preparing an image to convert into \tikzbrick{}s:
+\begin{itemize}
+\item consider using an image with transparent background so some of the edges of the bricks will be visible instead of just a solid wall
+\item image formats like .png are best suitable to avoid artefacts from image compression
+\item consider using small images with not too many pixels. Otherwise the resulting \tikzbrick wall gets very large and might not be compilable (Lua\TeX{} is a bit more lenient, but can't do wonders, either)
+\end{itemize}
+
 \section{Example}
 
 One example inspired by the documentation of the  \href{https://www.ctan.org/pkg/pxpic}{pxpic package}:
