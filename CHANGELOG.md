@@ -21,7 +21,7 @@
 
 ## [v0.3]
 
-### changed
+### Changed
 
  - minor bugfixes
 
