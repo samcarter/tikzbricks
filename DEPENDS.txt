@@ -1,0 +1,4 @@
+hard pgf
+hard iftex
+hard epstopdf-pkg
+hard tikz-3dplot
