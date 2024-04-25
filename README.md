@@ -1,4 +1,4 @@
-![](https://raw.githubusercontent.com/samcarter/tikzbricks/main/icon.png)
+![](https://raw.githubusercontent.com/samcarter/tikzbricks/main/ICON.png)
 
 # TikZbricks
 
