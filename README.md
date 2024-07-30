@@ -2,9 +2,9 @@
 
 # TikZbricks
 
-[![GitHub](https://img.shields.io/github/license/samcarter/tikzbricks.svg?color=blue)](http://www.latex-project.org/lppl.txt)
-[![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/samcarter/tikzbricks.svg?label=current%20version)](https://github.com/samcarter/tikzbricks/releases/latest)
-[![CTAN](https://img.shields.io/ctan/v/tikzbricks.svg)](https://ctan.org/pkg/tikzbricks)
+[![License](https://img.shields.io/github/license/samcarter/tikzbricks.svg?color=blue)](http://www.latex-project.org/lppl.txt)
+[![GitHub tag](https://img.shields.io/github/tag/samcarter/tikzbricks.svg?label=current%20version&color=blue)](https://github.com/samcarter/tikzbricks/releases/latest)
+[![CTAN](https://img.shields.io/ctan/v/tikzbricks.svg?color=blue)](https://ctan.org/pkg/tikzbricks)
 
 A small LaTeX package to draw bricks with TikZ. The user can modify the colour, shape and  viewpoint.
 
