@@ -29,12 +29,14 @@
 \DeclareOptionX{studcolor}[\brick@color]{\def\brick@default@studcolor{#1}}
 \DeclareOptionX{brickheight}[1.3]{\def\brick@default@height{#1}}
 \DeclareOptionX{bricklength}[1.0]{\def\brick@default@length{#1}}
+\DeclareOptionX{bricktext}[]{\def\brick@default@facetext{#1}}
 \DeclareOptionX{brickwidth}[1.0]{\def\brick@default@width{#1}}
 \DeclareOptionX{studradius}[0.35]{\def\brick@default@radius{#1}}
 \DeclareOptionX{studheight}[0.3]{\def\brick@default@studheight{#1}}
 \DeclareOptionX{studtext}[]{\def\brick@default@text{#1}}
 
-\ExecuteOptionsX{color,frontcolor,topcolor,sidecolor,studcolor,brickheight,bricklength,brickwidth,studradius,studheight,studtext}
+
+\ExecuteOptionsX{color,frontcolor,topcolor,sidecolor,studcolor,brickheight,bricklength,bricktext,brickwidth,studradius,studheight,studtext}
 
 \ProcessOptionsX
 
@@ -104,15 +106,17 @@
   topcolor/.code      = \def\brick@topcolor{#1},
   topcolor            = \brick@default@topcolor,
   sidecolor/.code     = \def\brick@sidecolor{#1},
-  sidecolor           = \brick@default@sidecolor,  
+  sidecolor           = \brick@default@sidecolor,
   studcolor/.code     = \def\brick@studcolor{#1},
-  studcolor           = \brick@default@studcolor,    
+  studcolor           = \brick@default@studcolor,
   brickheight/.code   = \def\brick@height{#1},
   brickheight         = \brick@default@height,
   bricklength/.code   = \def\brick@length{#1},
   bricklength         = \brick@default@length,
+  bricktext/.code     = \def\brick@facetext{#1},
+  bricktext           = \brick@default@facetext,
   brickwidth/.code    = \def\brick@width{#1},
-  brickwidth          = \brick@default@width,    
+  brickwidth          = \brick@default@width,
   studradius/.code    = \def\brick@radius{#1},
   studradius          = \brick@default@radius,
   studheight/.code    = \def\brick@studheight{#1},
@@ -134,42 +138,42 @@
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %
   % Drawing the brick
-  % 
+  %
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \begin{scope}[tdplot_main_coords]
-  
+
     % Drawing faces
    \pgfmathparse{sign(sin(\tdplotmainphi))}
    \let\brick@sin\pgfmathresult
    \pgfmathparse{sign(cos(\tdplotmainphi))}
-   \let\brick@cos\pgfmathresult   
-    
+   \let\brick@cos\pgfmathresult
+
     \ifnum\brick@sin<0
       % Right
-      \fill[\brick@sidecolor,thick] 
+      \fill[\brick@sidecolor,thick]
         (
           \brick@length*\value{brickx},
           \brick@width*\value{bricky},
           \brick@height*\value{brickz}
-        ) 
-        -- ++(0,0,\brick@height) 
-        -- ++(0,\brick@width*#2,0) 
-        -- ++(0,0,-\brick@height) 
+        )
+        -- ++(0,0,\brick@height)
+        -- ++(0,\brick@width*#2,0)
+        -- ++(0,0,-\brick@height)
         -- cycle;
     \else
       % Left
-      \fill[\brick@sidecolor,thick] 
+      \fill[\brick@sidecolor,thick]
         (
           {\brick@length*(#1+\value{brickx})},
           \brick@width*\value{bricky},
           \brick@height*\value{brickz}
-        ) 
-        -- ++(0,0,\brick@height) 
-        -- ++(0,\brick@width*#2,0) 
-        -- ++(0,0,-\brick@height) 
-        -- cycle;       
+        )
+        -- ++(0,0,\brick@height)
+        -- ++(0,\brick@width*#2,0)
+        -- ++(0,0,-\brick@height)
+        -- cycle;
     \fi
-    
+
     \ifnum\brick@cos<0
       % Front
       \fill[\brick@frontcolor,thick]
@@ -178,77 +182,84 @@
           {\brick@width*(#2+\value{bricky})},
           \brick@height*\value{brickz}
         )
-        -- ++(\brick@length*#1,0,0) 
-        -- ++(0,0,\brick@height) 
-        -- ++(-\brick@length*#1,0,0) 
+        -- ++(\brick@length*#1,0,0)
+        -- ++(0,0,\brick@height)
+        -- ++(-\brick@length*#1,0,0)
         -- cycle;
+
+        \node[align=center, transform shape, canvas is zx plane at y=0, rotate=-90] at (
+            \brick@length*\value{brickx} + 0.5*\brick@length*#1,
+            {\brick@width*(#2+\value{bricky})},
+            \brick@height*\value{brickz} + 0.5*\brick@height
+        ) {\brick@facetext};
+
     \else
-      % Back   
+      % Back
       \fill[\brick@frontcolor,thick]
         (
           \brick@length*\value{brickx},
           \brick@width*\value{bricky},
           \brick@height*\value{brickz}
         )
-        -- ++(\brick@length*#1,0,0) 
-        -- ++(0,0,\brick@height) 
-        -- ++(-\brick@length*#1,0,0) 
+        -- ++(\brick@length*#1,0,0)
+        -- ++(0,0,\brick@height)
+        -- ++(-\brick@length*#1,0,0)
         -- cycle;
     \fi
 
-    % Top 
-    \fill[\brick@topcolor,thick] 
+    % Top
+    \fill[\brick@topcolor,thick]
       (
         \brick@length*\value{brickx},
         \brick@width*\value{bricky},
         {\brick@height*(1+\value{brickz})}
       )
-      -- ++(0,\brick@width*#2,0) 
-      -- ++(\brick@length*#1,0,0) 
-      -- +(0,-\brick@width*#2,0) 
+      -- ++(0,\brick@width*#2,0)
+      -- ++(\brick@length*#1,0,0)
+      -- +(0,-\brick@width*#2,0)
       -- cycle;
-    
 
-    
+
+
     % Drawing studs
     \foreach \x in {1,...,#1}{
       \foreach \y in {1,...,#2}{
-      
+
         % Bottom circle
-        \fill[\brick@studcolor]   
+        \fill[\brick@studcolor]
           (
             {\brick@length*(\x-0.5+\value{brickx})},
             {\brick@width*(\y-0.5+\value{bricky})},
             {\brick@height*(1+\value{brickz})}
-          ) 
-          circle [radius=\brick@radius]; 
-        
+          )
+          circle [radius=\brick@radius];
+
         % Rectangular stem
-        \fill[\brick@studcolor] 
+        \fill[\brick@studcolor]
           (
             {\brick@length*(\x-0.5+\value{brickx})},
             {\brick@width*(\y-0.5+\value{bricky})},
             {\brick@height*(1+\value{brickz})}
-          ) 
-          ++(canvas cs:x=-\brick@radius/0.35*10) 
-          -- ++(canvas cs:y=\brick@studheight*17.8) 
-          -- ++(canvas cs:x=\brick@radius/0.35*20) 
+          )
+          ++(canvas cs:x=-\brick@radius/0.35*10)
+          -- ++(canvas cs:y=\brick@studheight*17.8)
+          -- ++(canvas cs:x=\brick@radius/0.35*20)
           -- ++(canvas cs:y=-\brick@studheight*17.8);
-          
+
         % Top circle with text
-        \fill[\brick@topcolor] 
+        \fill[\brick@topcolor]
           (
             {\brick@length*(\x-0.5+\value{brickx})},
             {\brick@width*(\y-0.5+\value{bricky})},
             {\brick@height*(1+\value{brickz})}
-          ) 
-          ++(canvas cs:y=\brick@studheight*17.8) 
-          circle [radius=\brick@radius] 
+          )
+          ++(canvas cs:y=\brick@studheight*17.8)
+          circle [radius=\brick@radius]
           node[\brick@color,scale=\scalingfactor*0.5, font=\sffamily] {\brick@text};
 
       }
     }
-    
+
   \end{scope}
 }
 
