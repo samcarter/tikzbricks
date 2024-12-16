@@ -4,6 +4,15 @@
 
 ### New
 
+### Changed
+
+### Fixed
+
+
+## [v0.6]
+
+### New
+
 - new option `bricktext` to add text to the front face of the brick (thanks to @thomas-saigre)
 
 ### Changed
@@ -52,7 +61,8 @@
 
 ------
 
-[Unreleased]: https://github.com/samcarter/tikzbricks/compare/v0.5...HEAD
+[Unreleased]: https://github.com/samcarter/tikzbricks/compare/v0.6...HEAD
+[v0.6]: https://github.com/samcarter/tikzbricks/compare/v0.5...v0.6
 [v0.5]: https://github.com/samcarter/tikzbricks/compare/v0.4...v0.5
 [v0.4]: https://github.com/samcarter/tikzbricks/compare/v0.3...v0.4
 [v0.3]: https://github.com/samcarter/tikzbricks/compare/v0.2...v0.3
