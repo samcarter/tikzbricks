@@ -4,6 +4,8 @@
 
 ### New
 
+- new option `bricktext` to add text to the front face of the brick (thanks to @thomas-saigre)
+
 ### Changed
 
 ### Fixed
