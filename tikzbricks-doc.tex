@@ -14,6 +14,10 @@
 % arara: latexmk
 \documentclass{scrartcl}
 
+\usepackage[
+  themecolor=samred
+]{\jobname-settings}
+
 % meta %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \title{The \tikzbrick{}s package}
 \subtitle{Drawing bricks with \TikZ}
@@ -24,13 +28,10 @@
    \end{tikzpicture}\\[0.8em]
    \texttt{samcarter}\\
    \url{https://github.com/samcarter/TikZbricks}\\
-   \url{https://www.ctan.org/pkg/tikzbricks}
+   \url{https://ctan.org/pkg/tikzbricks}
   }{samcarter}}
 \date{Version v0.6 \textendash{} 2024/12/16}
-
-\usepackage[
-  themecolor=samred
-]{\jobname-settings}
+\packagename{tikzbricks}
 
 \colorlet{red}{samred}
 \colorlet{blue}{samlblue}
@@ -64,10 +65,7 @@ The idea for the \tikzbrick{}s package was born at the \href{https://tug.org/tug
 
 The package allows to draw bricks with \TikZ. The user can modify their colour, shape and change the viewpoint. Internally the \href{https://ctan.org/pkg/tikz-3dplot}{tikz-3dplot} package is used for the 3D rendering.
 
-The package is included in both \texlive and \miktex and available from \CTAN (\url{https://ctan.org/pkg/tikzbricks}).
-The development version of this package is located on github at \url{https://github.com/samcarter/TikZbricks}. If you have any problems, ideas or other feedback, please make constructive use of its bug tracker.
-
-Copyright \raisebox{0.2em}{\tiny\fontfamily{cmr}\selectfont\textcopyright} \texttt{samcarter}. Permission is granted to copy, distribute and\slash or modify this software under the terms of the \href{https://www.latex-project.org/lppl.txt}{LaTeX project public licence, version 1.3c or later}.
+\blurb
 
 \section{Basic usage}
 
