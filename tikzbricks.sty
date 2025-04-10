@@ -40,14 +40,14 @@
 
 \ProcessOptionsX
 
-% counter to dermine the position of a brick in a wall
+% counter to determine the position of a brick in a wall
 \newcounter{brickx}
 \newcounter{bricky}
 \newcounter{brickz}
 
 % draw a standalone brick
 % 1: optional argument
-% 2: lenght
+% 2: length
 % 3: width
 \newcommand*{\brick}[3][]{%
   \setcounter{brickx}{0}%
@@ -61,7 +61,7 @@
 
 % draw a brick in a wall
 % 1: optional argument
-% 2: lenght
+% 2: length
 % 3: width
 \newcommand*{\wallbrick}[3][]{%
   \begin{scope}%
@@ -71,7 +71,7 @@
   \addtocounter{brickx}{#2}%
 }
 
-% envrinoment to arange the bricks in a wall
+% envrinoment to arrange the bricks in a wall
 % 1: optional argument passed to the tikzpicture
 \newenvironment{wall}[1][]{%
   \setcounter{brickx}{0}%

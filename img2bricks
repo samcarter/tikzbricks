@@ -100,7 +100,7 @@ def convert_row(r):
     while c >= 0:
         run, clr = find_run(c, r)
         if run == c + 1 and clr[3] == 0:
-            # Optimize away trailing runs of transparency.
+            # Optimise away trailing runs of transparency.
             break
         code.extend(run_to_bricks(run, clr))
         c -= run
